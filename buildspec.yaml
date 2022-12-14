@@ -6,16 +6,22 @@ phases:
       - echo logging in to amazon ECR...
       - aws --version
       - REPOSITORY_URI=296475210819.dkr.ecr.ap-south-1.amazonaws.com/aws-pipeline
-      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
-      - echo Entered the build phase...
+      - echo Build phase started on 'date'
+      - echo Building the jar file using maven 
       - mvn clean package
-      - docker build -t aws-pipeline .
-      - docker tag aws-pipeline:latest 296475210819.dkr.ecr.ap-south-1.amazonaws.com/aws-pipeline:latest
+      - echo Building the Docker image
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed successfully
+      - echo pushing the images to ECR
+      - docker push $REPOSITORY_URI:latest 
+      - docker push $REPOSITORY_URI:IMAGE_TAG
 artifacts:
   files:
     - target/order-service.jar
