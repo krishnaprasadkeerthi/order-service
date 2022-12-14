@@ -22,7 +22,7 @@ phases:
       - echo pushing the images to ECR
       - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 296475210819.dkr.ecr.ap-south-1.amazonaws.com
       - docker push $REPOSITORY_URI:latest 
-      - docker push $REPOSITORY_URI:IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
 artifacts:
   files:
     - target/order-service.jar
