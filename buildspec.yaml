@@ -19,6 +19,12 @@ phases:
       - IMAGE_TAG=$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
   build:
     commands:
+      - echo Logging in to Amazon EKS...
+      - aws eks --region $AWS_REGION update-kubeconfig --name $AWS_CLUSTER_NAME
+      - echo check config 
+      - kubectl config view --minify
+      - echo check kubectl access
+      - kubectl get svc
       - echo Build phase started on 'date'
       - echo Building the jar file using maven 
       # - mvn clean package
