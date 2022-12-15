@@ -21,12 +21,12 @@ phases:
     commands:
       - echo Build phase started on 'date'
       - echo Building the jar file using maven 
-      - mvn clean package
+      # - mvn clean package
       - echo Building the Docker image
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       - echo Logging in to Amazon EKS...
-      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $AWS_CLUSTER_NAME
+      - aws eks --region $AWS_REGION update-kubeconfig --name $AWS_CLUSTER_NAME
       - echo check config 
       - kubectl config view --minify
       - echo check kubectl access
