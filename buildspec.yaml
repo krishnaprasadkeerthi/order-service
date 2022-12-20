@@ -24,9 +24,9 @@ phases:
       - echo Logging in to Amazon EKS...
       # - aws eks --region ap-south-1 update-kubeconfig --name k8-demo
       - echo check config 
-      - kubectl config view --minify
-      - echo check kubectl access
-      - kubectl get svc
+      # - kubectl config view --minify
+      # - echo check kubectl access
+      # - kubectl get svc
       - echo Build phase started on 'date'
       - echo Building the jar file using maven 
       - mvn clean package
